@@ -9,6 +9,7 @@ enum state { placing, controlling, animating };
 public class Player : MonoBehaviour
 {
     [SerializeField] Tilemap tilemap;
+    [SerializeField] Tilemap rootTilemap;
     [SerializeField] GameObject placeArrow;
     [SerializeField] Vector2 mapSize;
     [SerializeField] List<TileBase> obstacles;
@@ -18,10 +19,25 @@ public class Player : MonoBehaviour
     [SerializeField] TileBase rootTile_NW;
     [SerializeField] TileBase rootTile_SE;
     [SerializeField] TileBase rootTile_SW;
+    [SerializeField] TileBase intersect_empty;
+    [SerializeField] TileBase intersect_H;
+    [SerializeField] TileBase intersect_V;
+    [SerializeField] TileBase intersect_full;
+    [Header("Unidirectional")]
+    [SerializeField] TileBase unidirect_H;
+    [SerializeField] TileBase unidirect_V;
+    [SerializeField] TileBase unidirect_NE;
+    [SerializeField] TileBase unidirect_NW;
+    [SerializeField] TileBase unidirect_SE;
+    [SerializeField] TileBase unidirect_SW;
+
+
+    [SerializeField] TileBase endPoint;
     state gameState = state.placing;
     Vector3Int currentPosition;
     Vector3Int lastDirection = Vector3Int.zero;
     Controls controls;
+    int nbEndPoints = 0;
 
     private void Start()
     {
@@ -46,6 +62,17 @@ public class Player : MonoBehaviour
         int yPos = tilemap.cellBounds.yMax + 1;
 
         placeArrow.transform.position = new Vector2(0f, 4.5f);
+
+        BoundsInt bounds = tilemap.cellBounds;
+        foreach (Vector3Int pos in bounds.allPositionsWithin)
+        {
+            Tile tile = tilemap.GetTile<Tile>(pos);
+            if (tile == endPoint)
+            {
+                nbEndPoints++;
+            }
+        }
+        Debug.Log(nbEndPoints);
     }
 
     private void OnDisable()
@@ -77,6 +104,7 @@ public class Player : MonoBehaviour
 
     void MoveLeft()
     {
+        Debug.Log(gameState);
         if (gameState == state.placing)
         {
             if (placeArrow.transform.position.x <= -mapSize.x * 0.5f) return;
@@ -90,14 +118,15 @@ public class Player : MonoBehaviour
 
     void MoveDown()
     {
-        currentPosition = tilemap.WorldToCell(placeArrow.transform.position);
         if (gameState == state.placing)
         {
+            currentPosition = tilemap.WorldToCell(placeArrow.transform.position);
             TryFillDirection(Vector3Int.down);
             placeArrow.SetActive(false);
         }
         else if (gameState == state.controlling)
         {
+            Debug.Log("placing down");
             TryFillDirection(Vector3Int.down);
         }
     }
@@ -112,9 +141,16 @@ public class Player : MonoBehaviour
 
     void TryFillDirection(Vector3Int direction)
     {
+        Debug.Log("current position : " + currentPosition);
+        Debug.Log("next position : " + (currentPosition + direction));
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
         if (obstacles.Contains(nextTile)) return;
         FillLine(direction);
+    }
+
+    bool vertical(Vector3Int direction)
+    {
+        return direction == Vector3Int.up || direction == Vector3Int.down;
     }
 
     void FillLine(Vector3Int direction)
@@ -131,6 +167,74 @@ public class Player : MonoBehaviour
             {
                 break;
             }
+            else if (nextTile == endPoint)
+            {
+                currentPosition += direction;
+                //tilemap.SetTile(currentPosition, rootTile_H);
+                EndPointReached();
+                lastDirection = Vector3Int.zero;
+                return;
+            }
+            else if (nextTile == intersect_empty)
+            {
+                currentPosition += direction;
+                if (vertical(direction)) tilemap.SetTile(currentPosition, intersect_H);
+                else tilemap.SetTile(currentPosition, intersect_V);
+            }
+            else if (nextTile == intersect_H)
+            {
+                if (vertical(direction)) break;
+                currentPosition += direction;
+                tilemap.SetTile(currentPosition, intersect_full);
+            }
+            else if (nextTile == intersect_V)
+            {
+                if (!vertical(direction)) break;
+                currentPosition += direction;
+                tilemap.SetTile(currentPosition, intersect_full);
+            }
+            else if (nextTile == unidirect_H)
+            {
+                if (vertical(direction)) break;
+                currentPosition += direction;
+                rootTilemap.SetTile(currentPosition, rootTile_H);
+            }
+            else if (nextTile == unidirect_V)
+            {
+                if (!vertical(direction)) break;
+                currentPosition += direction;
+                rootTilemap.SetTile(currentPosition, rootTile_V);
+            }
+            else if (nextTile == unidirect_NE)
+            {
+                if (direction == Vector3Int.up || direction == Vector3Int.right) break;
+                currentPosition += direction;
+                if (direction == Vector3Int.down) direction = Vector3Int.right;
+                else direction = Vector3Int.up;
+            }
+            else if (nextTile == unidirect_SE)
+            {
+                if (direction == Vector3Int.down || direction == Vector3Int.right) break;
+                currentPosition += direction;
+                if (direction == Vector3Int.up) direction = Vector3Int.right;
+                else direction = Vector3Int.down;
+            }
+            else if (nextTile == unidirect_NW)
+            {
+                if (direction == Vector3Int.up || direction == Vector3Int.left) break;
+                currentPosition += direction;
+                if (direction == Vector3Int.down) direction = Vector3Int.left;
+                else direction = Vector3Int.up;
+            }
+            else if (nextTile == unidirect_SW)
+            {
+                if (direction == Vector3Int.down || direction == Vector3Int.left) break;
+                currentPosition += direction;
+                if (direction == Vector3Int.up) direction = Vector3Int.left;
+                else direction = Vector3Int.down;
+            }
+
+
             else
             {
                 currentPosition += direction;
@@ -145,8 +249,27 @@ public class Player : MonoBehaviour
 
             }
         }
+        Debug.Log("final position : " + currentPosition);
         lastDirection = direction;
         gameState = state.controlling;
+    }
+
+    void EndPointReached()
+    {
+        Debug.Log("end point reached");
+        nbEndPoints--;
+        if (nbEndPoints <= 0) Win();
+        else
+        {
+            Debug.Log("placing");
+            gameState = state.placing;
+            placeArrow.SetActive(true);
+        }
+    }
+
+    void Win()
+    {
+        Debug.Log("win");
     }
 
     void ChangeDirection(Vector3Int direction)
