@@ -18,6 +18,8 @@ enum tileType
     under_right, under_left,
 }
 
+enum vegetable { carotte, salade }
+
 public class Player : MonoBehaviour
 {
     [SerializeField] Tilemap tilemap;
@@ -78,6 +80,10 @@ public class Player : MonoBehaviour
     [SerializeField] List<TileAnim> tunnel_right;
     [SerializeField] List<TileAnim> tunnel_left;
     [SerializeField] TileBase herb2;
+    [SerializeField] GameObject carotte_graine;
+    [SerializeField] GameObject carotte_adulte;
+    vegetable currentVegetable;
+    GameObject currentSeed;
 
     TileAnim lastAnim;
     public static Player instance;
@@ -229,6 +235,7 @@ public class Player : MonoBehaviour
         (nextTile == unidirect_SW && direction == Vector3Int.left) ||
         (nextTile == unidirect_SW && direction == Vector3Int.down)
         ) return;
+        if (isPlacing) currentSeed = Instantiate(carotte_graine, placeArrow.transform.position + Vector3.up, Quaternion.identity);
         StartCoroutine("FillLine", direction);
     }
 
@@ -533,6 +540,8 @@ public class Player : MonoBehaviour
 
     void EndPointReached()
     {
+        Instantiate(carotte_adulte, currentSeed.transform.position + Vector3.down, Quaternion.identity);
+        Destroy(currentSeed);
         SoundManager.PlaySfx(transform, sfx.endPoint);
         Debug.Log("end point reached");
         nbEndPoints--;
