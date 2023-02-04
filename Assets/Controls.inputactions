@@ -6,15 +6,6 @@
             "id": "ba34f625-30ff-44c9-87e9-4e15b63e69e0",
             "actions": [
                 {
-                    "name": "Restart",
-                    "type": "Button",
-                    "id": "c65f540a-5afd-415f-8f57-5bff2f52d8ba",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Move",
                     "type": "Value",
                     "id": "958e54c5-2703-4b6b-ac79-ba92a278cd55",
@@ -61,17 +52,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "2e61ca3c-131a-40a4-b9aa-12f3763f2afe",
-                    "path": "<Keyboard>/#(R)",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Restart",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "ZQSD",
                     "id": "7c5f288b-cb37-47e1-afdd-c69a9db184f5",

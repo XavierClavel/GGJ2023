@@ -28,15 +28,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
             ""id"": ""ba34f625-30ff-44c9-87e9-4e15b63e69e0"",
             ""actions"": [
                 {
-                    ""name"": ""Restart"",
-                    ""type"": ""Button"",
-                    ""id"": ""c65f540a-5afd-415f-8f57-5bff2f52d8ba"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""958e54c5-2703-4b6b-ac79-ba92a278cd55"",
@@ -83,17 +74,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""2e61ca3c-131a-40a4-b9aa-12f3763f2afe"",
-                    ""path"": ""<Keyboard>/#(R)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Restart"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""ZQSD"",
                     ""id"": ""7c5f288b-cb37-47e1-afdd-c69a9db184f5"",
@@ -299,7 +279,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
 }");
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
-        m_Game_Restart = m_Game.FindAction("Restart", throwIfNotFound: true);
         m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
         m_Game_MoveRight = m_Game.FindAction("MoveRight", throwIfNotFound: true);
         m_Game_MoveLeft = m_Game.FindAction("MoveLeft", throwIfNotFound: true);
@@ -364,7 +343,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     // Game
     private readonly InputActionMap m_Game;
     private IGameActions m_GameActionsCallbackInterface;
-    private readonly InputAction m_Game_Restart;
     private readonly InputAction m_Game_Move;
     private readonly InputAction m_Game_MoveRight;
     private readonly InputAction m_Game_MoveLeft;
@@ -374,7 +352,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     {
         private @Controls m_Wrapper;
         public GameActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Restart => m_Wrapper.m_Game_Restart;
         public InputAction @Move => m_Wrapper.m_Game_Move;
         public InputAction @MoveRight => m_Wrapper.m_Game_MoveRight;
         public InputAction @MoveLeft => m_Wrapper.m_Game_MoveLeft;
@@ -389,9 +366,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_GameActionsCallbackInterface != null)
             {
-                @Restart.started -= m_Wrapper.m_GameActionsCallbackInterface.OnRestart;
-                @Restart.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnRestart;
-                @Restart.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnRestart;
                 @Move.started -= m_Wrapper.m_GameActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_GameActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_GameActionsCallbackInterface.OnMove;
@@ -411,9 +385,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
             m_Wrapper.m_GameActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Restart.started += instance.OnRestart;
-                @Restart.performed += instance.OnRestart;
-                @Restart.canceled += instance.OnRestart;
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
@@ -435,7 +406,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     public GameActions @Game => new GameActions(this);
     public interface IGameActions
     {
-        void OnRestart(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnMoveRight(InputAction.CallbackContext context);
         void OnMoveLeft(InputAction.CallbackContext context);
