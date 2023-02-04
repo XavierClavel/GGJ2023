@@ -77,6 +77,7 @@ public class Player : MonoBehaviour
     [SerializeField] List<TileAnim> endPoint_down;
     [SerializeField] List<TileAnim> tunnel_right;
     [SerializeField] List<TileAnim> tunnel_left;
+    [SerializeField] TileBase herb2;
 
     TileAnim lastAnim;
     public static Player instance;
@@ -210,7 +211,11 @@ public class Player : MonoBehaviour
         Debug.Log("current position : " + currentPosition);
         Debug.Log("next position : " + (currentPosition + direction));
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
-        if (isPlacing && nextTile == grass) currentPosition += direction;
+        if (isPlacing && nextTile == grass)
+        {
+            currentPosition += direction;
+            tilemap.SetTile(currentPosition, herb2);
+        }
         nextTile = tilemap.GetTile(currentPosition + direction);
         TileBase rootTile = rootTilemap.GetTile(currentPosition + direction);
         if (nextTile != null) Debug.Log("adjacent tile : " + nextTile.name);
