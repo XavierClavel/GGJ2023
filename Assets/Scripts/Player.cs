@@ -240,6 +240,8 @@ public class Player : MonoBehaviour
 
     IEnumerator FillLine(Vector3Int direction)
     {
+        SoundManager.PlaySfx(transform, sfx.grow);
+
         placeArrow.SetActive(false);
         gameState = state.animating;
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
@@ -531,6 +533,7 @@ public class Player : MonoBehaviour
 
     void EndPointReached()
     {
+        SoundManager.PlaySfx(transform, sfx.endPoint);
         Debug.Log("end point reached");
         nbEndPoints--;
         if (nbEndPoints <= 0) Win();
