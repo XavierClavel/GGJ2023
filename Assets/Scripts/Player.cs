@@ -214,7 +214,16 @@ public class Player : MonoBehaviour
         nextTile = tilemap.GetTile(currentPosition + direction);
         TileBase rootTile = rootTilemap.GetTile(currentPosition + direction);
         if (nextTile != null) Debug.Log("adjacent tile : " + nextTile.name);
-        if (obstacles.Contains(nextTile) || obstacles.Contains(rootTile)) return;
+        if (obstacles.Contains(nextTile) || obstacles.Contains(rootTile) ||
+        (nextTile == unidirect_NE && direction == Vector3Int.right) ||
+        (nextTile == unidirect_NE && direction == Vector3Int.up) ||
+        (nextTile == unidirect_NW && direction == Vector3Int.left) ||
+        (nextTile == unidirect_NW && direction == Vector3Int.down) ||
+        (nextTile == unidirect_SE && direction == Vector3Int.right) ||
+        (nextTile == unidirect_SE && direction == Vector3Int.down) ||
+        (nextTile == unidirect_SW && direction == Vector3Int.left) ||
+        (nextTile == unidirect_SW && direction == Vector3Int.down)
+        ) return;
         StartCoroutine("FillLine", direction);
     }
 
@@ -227,14 +236,18 @@ public class Player : MonoBehaviour
     IEnumerator FillLine(Vector3Int direction)
     {
         gameState = state.animating;
+        TileBase nextTile = tilemap.GetTile(currentPosition + direction);
+        TileBase nextRoot = rootTilemap.GetTile(currentPosition + direction);
 
-        if (lastDirection != Vector3Int.zero) yield return ChangeDirection(direction);
+        if ((lastDirection != Vector3Int.zero) && !obstacles.Contains(nextRoot) && nextTile != unidirect_NE
+        && nextTile != unidirect_NW && nextTile != unidirect_SE && nextTile != unidirect_SW
+        ) yield return ChangeDirection(direction);
 
         while (true)
         {
             Debug.Log(currentPosition);
-            TileBase nextTile = tilemap.GetTile(currentPosition + direction);
-            TileBase nextRoot = rootTilemap.GetTile(currentPosition + direction);
+            nextTile = tilemap.GetTile(currentPosition + direction);
+            nextRoot = rootTilemap.GetTile(currentPosition + direction);
             if (nextTile != null) Debug.Log(nextTile.name);
             if (isPlacing && nextTile == grass) currentPosition += direction;
             if (obstacles.Contains(nextTile) || obstacles.Contains(nextRoot))
@@ -318,6 +331,7 @@ public class Player : MonoBehaviour
                     yield return Backoff(currentPosition);
                     break;
                 }
+                if (lastDirection != Vector3Int.zero && lastDirection != direction) yield return ChangeDirection(direction);
                 currentPosition += direction;
                 if (direction == Vector3Int.down)
                 {
@@ -338,6 +352,7 @@ public class Player : MonoBehaviour
                     yield return Backoff(currentPosition);
                     break;
                 }
+                if (lastDirection != Vector3Int.zero && lastDirection != direction) yield return ChangeDirection(direction);
                 currentPosition += direction;
                 if (direction == Vector3Int.up)
                 {
@@ -360,6 +375,7 @@ public class Player : MonoBehaviour
                     yield return Backoff(currentPosition);
                     break;
                 }
+                if (lastDirection != Vector3Int.zero && lastDirection != direction) yield return ChangeDirection(direction);
                 currentPosition += direction;
                 if (direction == Vector3Int.down)
                 {
@@ -371,7 +387,7 @@ public class Player : MonoBehaviour
                 {
                     Debug.Log("right");
                     direction = Vector3Int.up;
-                    yield return PlaceTile(tileType.corner_NW_down, currentPosition);
+                    yield return PlaceTile(tileType.corner_NW_right, currentPosition);
                 }
             }
             else if (nextTile == unidirect_SW)
@@ -381,6 +397,7 @@ public class Player : MonoBehaviour
                     yield return Backoff(currentPosition);
                     break;
                 }
+                if (lastDirection != Vector3Int.zero && lastDirection != direction) yield return ChangeDirection(direction);
                 currentPosition += direction;
                 if (direction == Vector3Int.up)
                 {
@@ -402,6 +419,7 @@ public class Player : MonoBehaviour
                 else if (direction == Vector3Int.left) yield return PlaceTile(tileType.straight_H_left, currentPosition);
 
             }
+            lastDirection = direction;
         }
         Debug.Log("final position : " + currentPosition);
         lastDirection = direction;
@@ -444,7 +462,7 @@ public class Player : MonoBehaviour
                 return anims_corner_NW_down[Random.Range(0, anims_corner_NW_down.Count)];
 
             case tileType.corner_NW_right:
-                return anims_corner_NW_down[Random.Range(0, anims_corner_NW_down.Count)];
+                return anims_corner_NW_right[Random.Range(0, anims_corner_NW_right.Count)];
 
             case tileType.corner_SE_up:
                 return anims_corner_SE_up[Random.Range(0, anims_corner_SE_up.Count)];
@@ -513,6 +531,8 @@ public class Player : MonoBehaviour
         {
             Debug.Log("placing");
             gameState = state.placing;
+            isPlacing = true;
+            lastDirection = Vector3Int.zero;
             placeArrow.SetActive(true);
         }
     }
