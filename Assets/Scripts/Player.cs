@@ -186,9 +186,9 @@ public class Player : MonoBehaviour
     {
         if (gameState == state.placing)
         {
+            lastDirection = Vector3Int.zero;
             currentPosition = tilemap.WorldToCell(placeArrow.transform.position);
             TryFillDirection(Vector3Int.down);
-            placeArrow.SetActive(false);
         }
         else if (gameState == state.controlling)
         {
@@ -214,11 +214,11 @@ public class Player : MonoBehaviour
         nextTile = tilemap.GetTile(currentPosition + direction);
         TileBase rootTile = rootTilemap.GetTile(currentPosition + direction);
         if (nextTile != null) Debug.Log("adjacent tile : " + nextTile.name);
-        if (obstacles.Contains(nextTile) || obstacles.Contains(rootTile) ||
+        if (obstacles.Contains(nextTile) || (obstacles.Contains(rootTile) && nextTile != intersect_empty) ||
         (nextTile == unidirect_NE && direction == Vector3Int.right) ||
         (nextTile == unidirect_NE && direction == Vector3Int.up) ||
         (nextTile == unidirect_NW && direction == Vector3Int.left) ||
-        (nextTile == unidirect_NW && direction == Vector3Int.down) ||
+        (nextTile == unidirect_NW && direction == Vector3Int.up) ||
         (nextTile == unidirect_SE && direction == Vector3Int.right) ||
         (nextTile == unidirect_SE && direction == Vector3Int.down) ||
         (nextTile == unidirect_SW && direction == Vector3Int.left) ||
@@ -235,9 +235,11 @@ public class Player : MonoBehaviour
 
     IEnumerator FillLine(Vector3Int direction)
     {
+        placeArrow.SetActive(false);
         gameState = state.animating;
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
         TileBase nextRoot = rootTilemap.GetTile(currentPosition + direction);
+        Debug.Log("last direction : " + lastDirection);
 
         if ((lastDirection != Vector3Int.zero) && !obstacles.Contains(nextRoot) && nextTile != unidirect_NE
         && nextTile != unidirect_NW && nextTile != unidirect_SE && nextTile != unidirect_SW
@@ -250,7 +252,7 @@ public class Player : MonoBehaviour
             nextRoot = rootTilemap.GetTile(currentPosition + direction);
             if (nextTile != null) Debug.Log(nextTile.name);
             if (isPlacing && nextTile == grass) currentPosition += direction;
-            if (obstacles.Contains(nextTile) || obstacles.Contains(nextRoot))
+            if (obstacles.Contains(nextTile) || (obstacles.Contains(nextRoot) && nextTile != intersect_empty))
             {
                 yield return Backoff(currentPosition);
                 break;
