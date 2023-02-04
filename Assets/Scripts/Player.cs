@@ -518,7 +518,6 @@ public class Player : MonoBehaviour
 
     IEnumerator ChangeDirection(Vector3Int direction)
     {
-        Vector3Int directionChange = direction - lastDirection;
         if (direction == Vector3Int.down)
         {
             if (lastDirection == Vector3Int.right) yield return PlaceTile(tileType.corner_SW_right, currentPosition);

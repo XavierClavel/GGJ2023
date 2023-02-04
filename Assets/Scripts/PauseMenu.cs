@@ -10,6 +10,27 @@ public class PauseMenu : MonoBehaviour
         Player.instance.Pause();
     }
 
+    public void Replay()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadNextLevel()
+    {
+        string currentLevel = SceneManager.GetActiveScene().name;
+        string levelNumber = currentLevel.Split(" ")[1];
+        int lvlInt = int.Parse(levelNumber);
+        try
+        {
+            SceneManager.LoadScene("LvlInt " + (++lvlInt));
+        }
+        catch
+        {
+            Debug.Log("Scene does not exist");
+        }
+
+    }
+
     public void Menu()
     {
         SceneManager.LoadScene("MainMenu");
