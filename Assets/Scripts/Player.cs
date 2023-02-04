@@ -80,10 +80,12 @@ public class Player : MonoBehaviour
     [SerializeField] List<TileAnim> tunnel_right;
     [SerializeField] List<TileAnim> tunnel_left;
     [SerializeField] TileBase herb2;
-    [SerializeField] GameObject carotte_graine;
-    [SerializeField] GameObject carotte_adulte;
+    [SerializeField] List<GameObject> vegetables_seeds;
+    [SerializeField] List<GameObject> vegetables_grown;
+    [SerializeField] GameObject winScreen;
     vegetable currentVegetable;
     GameObject currentSeed;
+    int vegeIndex;
 
     TileAnim lastAnim;
     public static Player instance;
@@ -235,7 +237,11 @@ public class Player : MonoBehaviour
         (nextTile == unidirect_SW && direction == Vector3Int.left) ||
         (nextTile == unidirect_SW && direction == Vector3Int.down)
         ) return;
-        if (isPlacing) currentSeed = Instantiate(carotte_graine, placeArrow.transform.position + Vector3.up, Quaternion.identity);
+        if (isPlacing)
+        {
+            vegeIndex = Random.Range(0, vegetables_seeds.Count);
+            currentSeed = Instantiate(vegetables_seeds[vegeIndex], placeArrow.transform.position + Vector3.up, Quaternion.identity);
+        }
         StartCoroutine("FillLine", direction);
     }
 
@@ -540,7 +546,8 @@ public class Player : MonoBehaviour
 
     void EndPointReached()
     {
-        Instantiate(carotte_adulte, currentSeed.transform.position + Vector3.down, Quaternion.identity);
+        GameObject obj = Instantiate(vegetables_grown[vegeIndex], currentSeed.transform.position + Vector3.down, Quaternion.identity);
+        if (vegeIndex == 1) obj.transform.position += Vector3.up;
         Destroy(currentSeed);
         SoundManager.PlaySfx(transform, sfx.endPoint);
         Debug.Log("end point reached");
@@ -558,7 +565,8 @@ public class Player : MonoBehaviour
 
     void Win()
     {
-        Debug.Log("win");
+        pauseControls.Disable();
+        winScreen.SetActive(true);
     }
 
     IEnumerator ChangeDirection(Vector3Int direction)
