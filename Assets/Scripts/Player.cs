@@ -86,12 +86,15 @@ public class Player : MonoBehaviour
     vegetable currentVegetable;
     GameObject currentSeed;
     int vegeIndex;
+    bool hasWon = false;
 
     TileAnim lastAnim;
     public static Player instance;
+    [SerializeField] PauseMenu winScript;
 
     private void Start()
     {
+        Cursor.visible = false;
         instance = this;
 
         controls = new Controls();
@@ -136,6 +139,7 @@ public class Player : MonoBehaviour
 
     public void Pause()
     {
+        if (hasWon) return;
         if (gamePaused)
         {
             pauseWindow.SetActive(false);
@@ -576,8 +580,10 @@ public class Player : MonoBehaviour
 
     void Win()
     {
-        pauseControls.Disable();
+        Cursor.visible = true;
+        hasWon = true;
         winScreen.SetActive(true);
+        winScript.SelectNext();
     }
 
     IEnumerator ChangeDirection(Vector3Int direction)
