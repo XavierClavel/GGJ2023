@@ -470,7 +470,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Backoff(Vector3Int position)
     {
-        SoundManager.PlaySfx(transform, sfx.wallColide);
+        SoundManager.PlaySfx(transform, sfx.wallCollide);
         for (int i = lastAnim.anim.Count - 1; i > 0; i--)
         {
             rootTilemap.SetTile(position, lastAnim.anim[i]);
@@ -569,12 +569,12 @@ public class Player : MonoBehaviour
         GameObject obj = Instantiate(vegetables_grown[vegeIndex], currentSeed.transform.position + Vector3.down, Quaternion.identity);
         if (vegeIndex == 1) obj.transform.position += Vector3.up;
         Destroy(currentSeed);
-        SoundManager.PlaySfx(transform, sfx.endPoint);
         Debug.Log("end point reached");
         nbEndPoints--;
         if (nbEndPoints <= 0) Win();
         else
         {
+            SoundManager.PlaySfx(transform, sfx.endPoint);
             Debug.Log("placing");
             gameState = state.placing;
             isPlacing = true;
@@ -585,6 +585,7 @@ public class Player : MonoBehaviour
 
     void Win()
     {
+        SoundManager.PlaySfx(transform, sfx.endLevel);
         Cursor.visible = true;
         hasWon = true;
         winScreen.SetActive(true);
