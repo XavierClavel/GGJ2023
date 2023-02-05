@@ -92,6 +92,7 @@ public class Player : MonoBehaviour
     public static Player instance;
     [SerializeField] PauseMenu winScript;
     [SerializeField] PauseMenu pauseScript;
+    WaitForSeconds pressDuration = new WaitForSeconds(0.3f);
 
     private void Start()
     {
@@ -101,7 +102,12 @@ public class Player : MonoBehaviour
         controls = new Controls();
         controls.Enable();
         controls.Game.MoveRight.performed += ctx => MoveRight();
+        controls.Game.MoveRight.started += ctx => StartMoveRight();
+        controls.Game.MoveRight.canceled += ctx => StopMoveRight();
+
         controls.Game.MoveLeft.performed += ctx => MoveLeft();
+        controls.Game.MoveLeft.started += ctx => StartMoveLeft();
+        controls.Game.MoveLeft.canceled += ctx => StopMoveLeft();
         controls.Game.MoveDown.performed += ctx => MoveDown();
         controls.Game.MoveUp.performed += ctx => MoveUp();
 
@@ -134,6 +140,7 @@ public class Player : MonoBehaviour
             }
         }
         float xPos = xPosMax % 1 == 0 ? 0.5f : 0f;
+        placeArrow = Instantiate(placeArrow);
         placeArrow.transform.position = new Vector2(xPos, 3.5f);
         Debug.Log(nbEndPoints);
     }
@@ -169,16 +176,62 @@ public class Player : MonoBehaviour
         SceneManager.LoadScene(scene.name);
     }
 
+    void StartMoveRight()
+    {
+        if (gameState == state.placing) StartCoroutine("ContinueMoveRight");
+    }
+
+    void StopMoveRight()
+    {
+        StopCoroutine("ContinueMoveRight");
+    }
+
+    IEnumerator ContinueMoveRight()
+    {
+        while (true)
+        {
+            MoveRightPlace();
+            yield return pressDuration;
+        }
+    }
+
+    void StartMoveLeft()
+    {
+        if (gameState == state.placing) StartCoroutine("ContinueMoveLeft");
+    }
+
+    void StopMoveLeft()
+    {
+        StopCoroutine("ContinueMoveLeft");
+    }
+
+    IEnumerator ContinueMoveLeft()
+    {
+        while (true)
+        {
+            MoveLeftPlace();
+            yield return pressDuration;
+        }
+    }
+
+    void MoveRightPlace()
+    {
+        if (placeArrow.transform.position.x + 1 >= mapSize.x * 0.5f) return;
+        placeArrow.transform.position += Vector3.right;
+    }
+
+    void MoveLeftPlace()
+    {
+        if (placeArrow.transform.position.x - 1 <= -mapSize.x * 0.5f) return;
+        placeArrow.transform.position += Vector3.left;
+
+    }
+
 
 
     void MoveRight()
     {
-        if (gameState == state.placing)
-        {
-            if (placeArrow.transform.position.x + 1 >= mapSize.x * 0.5f) return;
-            placeArrow.transform.position += Vector3.right;
-        }
-        else if (gameState == state.controlling)
+        if (gameState == state.controlling)
         {
             TryFillDirection(Vector3Int.right);
         }
@@ -187,13 +240,7 @@ public class Player : MonoBehaviour
 
     void MoveLeft()
     {
-        Debug.Log(gameState);
-        if (gameState == state.placing)
-        {
-            if (placeArrow.transform.position.x - 1 <= -mapSize.x * 0.5f) return;
-            placeArrow.transform.position += Vector3.left;
-        }
-        else if (gameState == state.controlling)
+        if (gameState == state.controlling)
         {
             TryFillDirection(Vector3Int.left);
         }
