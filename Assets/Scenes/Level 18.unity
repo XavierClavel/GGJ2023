@@ -2613,7 +2613,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You won the game !
+  m_text: You completed the game !
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f9a94deded91a74288d2de1a6cb6b20, type: 2}
   m_sharedMaterial: {fileID: 870092678891679643, guid: 5f9a94deded91a74288d2de1a6cb6b20, type: 2}
@@ -2640,8 +2640,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65
-  m_fontSizeBase: 65
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
