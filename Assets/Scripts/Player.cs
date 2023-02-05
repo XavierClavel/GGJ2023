@@ -227,6 +227,9 @@ public class Player : MonoBehaviour
         currentTile == intersect_empty
         ) return;
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
+        if (nextTile == unidirect_H && vertical(direction) ||
+        (nextTile == unidirect_V && !vertical(direction))
+        ) return;
         if (isPlacing && (nextTile == grass || nextTile == herb2))
         {
             currentPosition += direction;
