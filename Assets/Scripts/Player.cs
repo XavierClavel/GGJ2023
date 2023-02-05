@@ -96,8 +96,9 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
         instance = this;
+
+        Cursor.visible = false;
 
         controls = new Controls();
         controls.Enable();
@@ -150,12 +151,14 @@ public class Player : MonoBehaviour
         if (hasWon) return;
         if (gamePaused)
         {
+            Cursor.visible = false;
             pauseWindow.SetActive(false);
             gamePaused = false;
             controls.Enable();
         }
         else
         {
+            Cursor.visible = true;
             pauseWindow.SetActive(true);
             pauseScript.SelectNext();
             gamePaused = true;

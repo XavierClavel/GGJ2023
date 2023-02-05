@@ -20,11 +20,13 @@ public class PauseMenu : MonoBehaviour
 
     public void Replay()
     {
+        Cursor.visible = false;
         SceneFader.FadeTo(SceneManager.GetActiveScene().name);
     }
 
     public void LoadNextLevel()
     {
+        Cursor.visible = false;
         string currentLevel = SceneManager.GetActiveScene().name;
         string levelNumber = currentLevel.Split(" ")[1];
         int lvlInt = int.Parse(levelNumber);
@@ -53,12 +55,14 @@ public class PauseMenu : MonoBehaviour
 
     public void Menu()
     {
+        Cursor.visible = false;
         Destroy(SoundManager.instance.gameObject);
         SceneFader.FadeTo("MainMenu");
     }
 
     public void Quit()
     {
+        Cursor.visible = false;
         Application.Quit();
     }
 }
