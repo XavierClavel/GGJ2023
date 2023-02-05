@@ -9,8 +9,11 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] AudioSource saxo;
     public void Play()
     {
+        DontDestroyOnLoad(saxo);
+        saxo.Play();
         Destroy(SoundManager.instance.gameObject);
         SceneFader.FadeTo("Level 1");
     }
