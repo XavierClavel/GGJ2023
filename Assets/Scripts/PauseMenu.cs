@@ -34,7 +34,7 @@ public class PauseMenu : MonoBehaviour
     public void Menu()
     {
         Destroy(SoundManager.instance.gameObject);
-        SceneManager.LoadScene("MainMenu");
+        SceneFader.FadeTo("MainMenu");
     }
 
     public void Quit()
