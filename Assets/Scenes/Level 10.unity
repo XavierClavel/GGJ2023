@@ -5432,11 +5432,11 @@ PrefabInstance:
       objectReference: {fileID: 1687951177460265417, guid: 75be9dfaa11de954ba39f882820309ca, type: 3}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: vegetables_grown.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: vegetables_seeds.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: vegetables_grown.Array.data[0]
@@ -5447,6 +5447,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7475174900404349801, guid: 8e130acc53576534a8813465642d64c6, type: 3}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
+      propertyPath: vegetables_grown.Array.data[2]
+      value: 
+      objectReference: {fileID: 3321945771428565507, guid: 509ba24bd9f4b4c478b356262fc56fcb, type: 3}
+    - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: vegetables_seeds.Array.data[0]
       value: 
       objectReference: {fileID: 1687951177460265417, guid: 75be9dfaa11de954ba39f882820309ca, type: 3}
@@ -5454,6 +5458,10 @@ PrefabInstance:
       propertyPath: vegetables_seeds.Array.data[1]
       value: 
       objectReference: {fileID: 3206046723316834787, guid: 519c4c95f53f2e94199c2b5d96cced8b, type: 3}
+    - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
+      propertyPath: vegetables_seeds.Array.data[2]
+      value: 
+      objectReference: {fileID: 6515362048224977321, guid: c338b214235cddc4eb2cf86556d3c635, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

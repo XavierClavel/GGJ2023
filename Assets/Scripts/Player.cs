@@ -567,6 +567,7 @@ public class Player : MonoBehaviour
     void EndPointReached()
     {
         GameObject obj = Instantiate(vegetables_grown[vegeIndex], currentSeed.transform.position + Vector3.down, Quaternion.identity);
+        if (vegeIndex == 2) obj.transform.position += 0.5f * Vector3.up;
         if (vegeIndex == 1) obj.transform.position += Vector3.up;
         Destroy(currentSeed);
         Debug.Log("end point reached");

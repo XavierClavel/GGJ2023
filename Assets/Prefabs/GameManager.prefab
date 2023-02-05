@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6239208495392632703
 MonoBehaviour:
@@ -234,6 +234,14 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 123a2e10079c8da45a69ec353eb9dd2d, type: 2}
     - {fileID: 11400000, guid: ae1845f2df36318438390985352be8c1, type: 2}
   herb2: {fileID: 11400000, guid: cd2e9d82c304b374b8e8819cb541f0e2, type: 2}
-  vegetables_seeds: []
-  vegetables_grown: []
+  vegetables_seeds:
+  - {fileID: 6515362048224977321, guid: c338b214235cddc4eb2cf86556d3c635, type: 3}
+  - {fileID: 1687951177460265417, guid: 75be9dfaa11de954ba39f882820309ca, type: 3}
+  - {fileID: 3206046723316834787, guid: 519c4c95f53f2e94199c2b5d96cced8b, type: 3}
+  vegetables_grown:
+  - {fileID: 3321945771428565507, guid: 509ba24bd9f4b4c478b356262fc56fcb, type: 3}
+  - {fileID: 7459663087917825451, guid: 7fae6f1d47158f94eb92e26e480680f2, type: 3}
+  - {fileID: 7475174900404349801, guid: 8e130acc53576534a8813465642d64c6, type: 3}
   winScreen: {fileID: 0}
+  winScript: {fileID: 0}
+  pauseScript: {fileID: 0}
