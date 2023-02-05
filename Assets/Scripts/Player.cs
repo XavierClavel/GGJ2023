@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
     TileAnim lastAnim;
     public static Player instance;
     [SerializeField] PauseMenu winScript;
+    [SerializeField] PauseMenu pauseScript;
 
     private void Start()
     {
@@ -149,6 +150,7 @@ public class Player : MonoBehaviour
         else
         {
             pauseWindow.SetActive(true);
+            pauseScript.SelectNext();
             gamePaused = true;
             controls.Disable();
         }
@@ -466,6 +468,7 @@ public class Player : MonoBehaviour
 
     IEnumerator Backoff(Vector3Int position)
     {
+        SoundManager.PlaySfx(transform, sfx.wallColide);
         for (int i = lastAnim.anim.Count - 1; i > 0; i--)
         {
             rootTilemap.SetTile(position, lastAnim.anim[i]);

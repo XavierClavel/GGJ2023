@@ -27,7 +27,7 @@ public class sfxContainer : IEquatable<sfxContainer>
 
 public enum sfx
 {
-    grow, endPoint
+    grow, endPoint, wallColide
 };
 
 public class SoundManager : MonoBehaviour

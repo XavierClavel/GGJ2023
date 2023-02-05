@@ -4686,6 +4686,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8099804904237525294}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
+      propertyPath: winScript
+      value: 
+      objectReference: {fileID: 7549846402692480964}
+    - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: placeArrow
       value: 
       objectReference: {fileID: 196911656}
@@ -4846,6 +4850,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1778421472985192166, guid: 00f9eeb1dba05aa49b2c98f2fe1b3ed4, type: 3}
+      propertyPath: nextButton
+      value: 
+      objectReference: {fileID: 7549846402692480965}
     - target: {fileID: 1778421472985192173, guid: 00f9eeb1dba05aa49b2c98f2fe1b3ed4, type: 3}
       propertyPath: m_Name
       value: WinScreen
@@ -4891,6 +4899,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00f9eeb1dba05aa49b2c98f2fe1b3ed4, type: 3}
+--- !u!114 &7549846402692480964 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1778421472985192166, guid: 00f9eeb1dba05aa49b2c98f2fe1b3ed4, type: 3}
+  m_PrefabInstance: {fileID: 7549846402692480963}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8099804904237525294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538c940e0fdf7cf4d859ae832f6cc55a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7549846402692480965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1778421472430692680, guid: 00f9eeb1dba05aa49b2c98f2fe1b3ed4, type: 3}
+  m_PrefabInstance: {fileID: 7549846402692480963}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8099804904237525294 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1778421472985192173, guid: 00f9eeb1dba05aa49b2c98f2fe1b3ed4, type: 3}

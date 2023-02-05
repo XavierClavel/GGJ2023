@@ -20,7 +20,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Replay()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneFader.FadeTo(SceneManager.GetActiveScene().name);
     }
 
     public void LoadNextLevel()
