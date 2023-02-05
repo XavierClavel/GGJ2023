@@ -236,10 +236,11 @@ public class Player : MonoBehaviour
         if (nextTile == unidirect_H && vertical(direction) ||
         (nextTile == unidirect_V && !vertical(direction))
         ) return;
+        bool placeGrass = false;
         if (isPlacing && (nextTile == grass || nextTile == herb2))
         {
             currentPosition += direction;
-            tilemap.SetTile(currentPosition, herb2);
+            placeGrass = true;
         }
         nextTile = tilemap.GetTile(currentPosition + direction);
         TileBase rootTile = rootTilemap.GetTile(currentPosition + direction);
@@ -256,6 +257,7 @@ public class Player : MonoBehaviour
         ) return;
         if (isPlacing)
         {
+            tilemap.SetTile(currentPosition, herb2);
             vegeIndex = Random.Range(0, vegetables_seeds.Count);
             currentSeed = Instantiate(vegetables_seeds[vegeIndex], placeArrow.transform.position + Vector3.up, Quaternion.identity);
         }

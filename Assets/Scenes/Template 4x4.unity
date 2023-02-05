@@ -5602,6 +5602,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94634337a1b90ca4e830aae70589ace4, type: 3}
+--- !u!114 &3078933970174179102 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3078933971168700337, guid: 94634337a1b90ca4e830aae70589ace4, type: 3}
+  m_PrefabInstance: {fileID: 3078933970174179101}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299828903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 538c940e0fdf7cf4d859ae832f6cc55a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6065061688780170948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5795,6 +5806,10 @@ PrefabInstance:
       propertyPath: placeArrow
       value: 
       objectReference: {fileID: 196911656}
+    - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
+      propertyPath: pauseScript
+      value: 
+      objectReference: {fileID: 3078933970174179102}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: pauseWindow
       value: 
