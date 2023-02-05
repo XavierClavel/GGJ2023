@@ -20,14 +20,15 @@ public class PauseMenu : MonoBehaviour
         string currentLevel = SceneManager.GetActiveScene().name;
         string levelNumber = currentLevel.Split(" ")[1];
         int lvlInt = int.Parse(levelNumber);
-        try
+        int buildIndex = SceneUtility.GetBuildIndexByScenePath("Level " + (++lvlInt));
+        if (buildIndex == -1) SceneFader.FadeTo("MainMenu");
+        else
         {
-            SceneFader.FadeTo("Level " + (++lvlInt));
+            string scene = SceneManager.GetSceneByBuildIndex(buildIndex).name;
+            SceneFader.FadeTo(scene);
         }
-        catch
-        {
-            SceneFader.FadeTo("MainMenu");
-        }
+
+
 
     }
 
