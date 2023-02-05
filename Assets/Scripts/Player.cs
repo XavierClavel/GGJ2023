@@ -184,7 +184,7 @@ public class Player : MonoBehaviour
         Debug.Log(gameState);
         if (gameState == state.placing)
         {
-            if (placeArrow.transform.position.x <= -mapSize.x * 0.5f) return;
+            if (placeArrow.transform.position.x - 1 <= -mapSize.x * 0.5f) return;
             placeArrow.transform.position += Vector3.left;
         }
         else if (gameState == state.controlling)
