@@ -222,7 +222,10 @@ public class Player : MonoBehaviour
         Debug.Log("next position : " + (currentPosition + direction));
         TileBase currentTile = tilemap.GetTile(currentPosition);
         if (currentTile == unidirect_NE || currentTile == unidirect_NW ||
-        currentTile == unidirect_SE || currentTile == unidirect_SW) return;
+        currentTile == unidirect_SE || currentTile == unidirect_SW ||
+        currentTile == unidirect_H || currentTile == unidirect_V ||
+        currentTile == intersect_empty
+        ) return;
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
         if (isPlacing && (nextTile == grass || nextTile == herb2))
         {
