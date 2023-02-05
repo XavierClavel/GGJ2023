@@ -169,7 +169,7 @@ public class Player : MonoBehaviour
     {
         if (gameState == state.placing)
         {
-            if (placeArrow.transform.position.x >= mapSize.x * 0.5f) return;
+            if (placeArrow.transform.position.x + 1 >= mapSize.x * 0.5f) return;
             placeArrow.transform.position += Vector3.right;
         }
         else if (gameState == state.controlling)
