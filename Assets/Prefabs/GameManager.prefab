@@ -85,6 +85,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e49d7044319aafa468454dc5c6a16acb, type: 2}
   - {fileID: 11400000, guid: ba7fee06902dfa042a2ac51efbbb0b1a, type: 2}
   - {fileID: 11400000, guid: 36b38e3845a0d374da824f4d50459811, type: 2}
+  - {fileID: 11400000, guid: c977090ded04f744388da75bdab378e3, type: 2}
+  - {fileID: 11400000, guid: 9a69946de24dc4c45bc77b8ffe43ec58, type: 2}
+  - {fileID: 11400000, guid: 39af64327e805c94ebe55ae1abe98fc3, type: 2}
+  - {fileID: 11400000, guid: 945786ad56ec87247be23f1f34cb5e12, type: 2}
   grass: {fileID: 11400000, guid: e8e8cde26a027fb459e64dc69279ca26, type: 2}
   rootTile_V: {fileID: 11400000, guid: 6c63867700262eb4eafa6bcc67368b2d, type: 2}
   rootTile_H: {fileID: 11400000, guid: 5c675a5dc50395c49be8e8ceae804431, type: 2}
@@ -230,3 +234,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 123a2e10079c8da45a69ec353eb9dd2d, type: 2}
     - {fileID: 11400000, guid: ae1845f2df36318438390985352be8c1, type: 2}
   herb2: {fileID: 11400000, guid: cd2e9d82c304b374b8e8819cb541f0e2, type: 2}
+  vegetables_seeds: []
+  vegetables_grown: []
+  winScreen: {fileID: 0}
