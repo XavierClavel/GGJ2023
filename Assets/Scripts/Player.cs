@@ -220,6 +220,9 @@ public class Player : MonoBehaviour
     {
         Debug.Log("current position : " + currentPosition);
         Debug.Log("next position : " + (currentPosition + direction));
+        TileBase currentTile = tilemap.GetTile(currentPosition);
+        if (currentTile == unidirect_NE || currentTile == unidirect_NW ||
+        currentTile == unidirect_SE || currentTile == unidirect_SW) return;
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
         if (isPlacing && (nextTile == grass || nextTile == herb2))
         {
@@ -263,7 +266,7 @@ public class Player : MonoBehaviour
         TileBase nextRoot = rootTilemap.GetTile(currentPosition + direction);
         Debug.Log("last direction : " + lastDirection);
 
-        if ((lastDirection != Vector3Int.zero) && !obstacles.Contains(nextRoot) && nextTile != unidirect_NE
+        if ((lastDirection != Vector3Int.zero) && (!obstacles.Contains(nextRoot) || (nextTile == intersect_empty && !vertical(direction))) && nextTile != unidirect_NE
         && nextTile != unidirect_NW && nextTile != unidirect_SE && nextTile != unidirect_SW
         ) yield return ChangeDirection(direction);
 
