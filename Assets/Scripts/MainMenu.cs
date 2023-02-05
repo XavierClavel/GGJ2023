@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         Destroy(SoundManager.instance.gameObject);
-        SceneFader.FadeTo("SampleScene");
+        SceneFader.FadeTo("Level 1");
     }
     public void LoadLevel(string levelName)
     {
