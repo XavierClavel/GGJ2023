@@ -5747,7 +5747,7 @@ PrefabInstance:
       objectReference: {fileID: 1687951177460265417, guid: 75be9dfaa11de954ba39f882820309ca, type: 3}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: obstacles.Array.size
-      value: 40
+      value: 41
       objectReference: {fileID: 0}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: obstacles.Array.data[36]
@@ -5765,6 +5765,10 @@ PrefabInstance:
       propertyPath: obstacles.Array.data[39]
       value: 
       objectReference: {fileID: 11400000, guid: 945786ad56ec87247be23f1f34cb5e12, type: 2}
+    - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
+      propertyPath: obstacles.Array.data[40]
+      value: 
+      objectReference: {fileID: 11400000, guid: cd2e9d82c304b374b8e8819cb541f0e2, type: 2}
     - target: {fileID: 6239208495392632703, guid: f901dd6d124b0d44cb5d904a6a0a9184, type: 3}
       propertyPath: vegetables_grown.Array.size
       value: 3
