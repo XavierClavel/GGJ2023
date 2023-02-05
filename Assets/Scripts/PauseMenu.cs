@@ -22,11 +22,11 @@ public class PauseMenu : MonoBehaviour
         int lvlInt = int.Parse(levelNumber);
         try
         {
-            SceneManager.LoadScene("LvlInt " + (++lvlInt));
+            SceneFader.FadeTo("Level " + (++lvlInt));
         }
         catch
         {
-            Debug.Log("Scene does not exist");
+            SceneFader.FadeTo("MainMenu");
         }
 
     }
