@@ -157,6 +157,8 @@ public class Player : MonoBehaviour
 
     void Restart()
     {
+        controls.Disable();
+        pauseControls.Disable();
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
@@ -219,7 +221,7 @@ public class Player : MonoBehaviour
         Debug.Log("current position : " + currentPosition);
         Debug.Log("next position : " + (currentPosition + direction));
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
-        if (isPlacing && nextTile == grass)
+        if (isPlacing && (nextTile == grass || nextTile == herb2))
         {
             currentPosition += direction;
             tilemap.SetTile(currentPosition, herb2);

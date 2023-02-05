@@ -32,7 +32,6 @@ public enum sfx
 
 public class SoundManager : MonoBehaviour
 {
-    AudioSource MusicSource;
     [SerializeField] List<AudioClip> musics;
     static float LowPitchRange = 0.9f;
     static float HighPitchRange = 1.1f;
@@ -70,9 +69,14 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        audioIds = new List<clip>();
+        if (instance == null) instance = this;
+        else if (instance != this) Destroy(gameObject);
+        DontDestroyOnLoad(this);
+
+        musicSource.Play();
+
         if (musics.Count > 0) PlayMusic(musics[0]);
-        instance = this;
+        audioIds = new List<clip>();
         List<sfx> sfxList = Enum.GetValues(typeof(sfx)).Cast<sfx>().ToList();
 
         int i = 0;
@@ -116,7 +120,7 @@ public class SoundManager : MonoBehaviour
 
     public void ResumeTime()
     {
-        MusicSource.Play();
+        musicSource.Play();
         if (audioIds.Count > 0)
         {
             foreach (clip audioId in audioIds)
