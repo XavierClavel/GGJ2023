@@ -98,6 +98,8 @@ public class Player : MonoBehaviour
     {
         instance = this;
 
+        Time.timeScale = 1f;
+
         Cursor.visible = false;
 
         controls = new Controls();
@@ -151,18 +153,22 @@ public class Player : MonoBehaviour
         if (hasWon) return;
         if (gamePaused)
         {
+            Time.timeScale = 1f;
             Cursor.visible = false;
             pauseWindow.SetActive(false);
             gamePaused = false;
             controls.Enable();
+            SoundManager.ResumeTime();
         }
         else
         {
+            Time.timeScale = 0f;
             Cursor.visible = true;
             pauseWindow.SetActive(true);
             pauseScript.SelectNext();
             gamePaused = true;
             controls.Disable();
+            SoundManager.StopTime();
         }
     }
 
@@ -286,11 +292,9 @@ public class Player : MonoBehaviour
         if (nextTile == unidirect_H && vertical(direction) ||
         (nextTile == unidirect_V && !vertical(direction))
         ) return;
-        bool placeGrass = false;
         if (isPlacing && (nextTile == grass || nextTile == herb2))
         {
             currentPosition += direction;
-            placeGrass = true;
         }
         nextTile = tilemap.GetTile(currentPosition + direction);
         TileBase rootTile = rootTilemap.GetTile(currentPosition + direction);
@@ -322,7 +326,8 @@ public class Player : MonoBehaviour
 
     IEnumerator FillLine(Vector3Int direction)
     {
-        SoundManager.PlaySfx(transform, sfx.grow);
+        //SoundManager.PlaySfx(transform, sfx.grow);
+        SoundManager.PlayRoot();
 
         placeArrow.SetActive(false);
         gameState = state.animating;
@@ -516,10 +521,12 @@ public class Player : MonoBehaviour
         lastDirection = direction;
         gameState = state.controlling;
         isPlacing = false;
+        SoundManager.StopRoot();
     }
 
     IEnumerator Backoff(Vector3Int position)
     {
+        SoundManager.StopRoot();
         SoundManager.PlaySfx(transform, sfx.wallCollide);
         for (int i = lastAnim.anim.Count - 1; i > 0; i--)
         {
@@ -616,6 +623,7 @@ public class Player : MonoBehaviour
 
     void EndPointReached()
     {
+        SoundManager.StopRoot();
         GameObject obj = Instantiate(vegetables_grown[vegeIndex], currentSeed.transform.position + Vector3.down, Quaternion.identity);
         if (vegeIndex == 2) obj.transform.position += 0.5f * Vector3.up;
         if (vegeIndex == 1) obj.transform.position += Vector3.up;

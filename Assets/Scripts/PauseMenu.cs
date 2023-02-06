@@ -20,12 +20,14 @@ public class PauseMenu : MonoBehaviour
 
     public void Replay()
     {
+        Time.timeScale = 1f;
         Cursor.visible = false;
         SceneFader.FadeTo(SceneManager.GetActiveScene().name);
     }
 
     public void LoadNextLevel()
     {
+        Time.timeScale = 1f;
         Cursor.visible = false;
         string currentLevel = SceneManager.GetActiveScene().name;
         string levelNumber = currentLevel.Split(" ")[1];
@@ -55,6 +57,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Menu()
     {
+        Time.timeScale = 1f;
         Cursor.visible = false;
         Destroy(SoundManager.instance.gameObject);
         SceneFader.FadeTo("MainMenu");

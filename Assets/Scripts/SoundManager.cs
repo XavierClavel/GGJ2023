@@ -40,6 +40,7 @@ public class SoundManager : MonoBehaviour
 
     [Header("Audio Sources")]
     [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioSource rootSource;
     float volume;
     static int SIZE = System.Enum.GetValues(typeof(sfx)).Length;
     //[NamedArray(typeof(sfx))] public AudioClip[] audioClips = new AudioClip[SIZE];
@@ -50,6 +51,7 @@ public class SoundManager : MonoBehaviour
     [Header(" ")]
     public sfxContainer[] audioClips;// = new sfxContainer[SIZE];
     //public sfxContainer[] test;
+    static bool rootPlaying = false;
 
 
 
@@ -94,6 +96,7 @@ public class SoundManager : MonoBehaviour
             volumeDictionary[sfxElement] = audioClips[i].volume;
             i++;
         }
+        rootPlaying = false;
     }
 
 
@@ -103,34 +106,26 @@ public class SoundManager : MonoBehaviour
         musicSource.Play();
     }
 
-    public void StopTime()
+    public static void StopTime()
     {
-        musicSource.Pause();
-        if (audioIds.Count > 0)
-        {
-            foreach (clip audioId in audioIds)
-            {
-                if (audioId.audio != null)
-                {
-                    audioId.audio.GetComponent<AudioSource>().Pause();
-                }
-            }
-        }
+        instance.rootSource.Pause();
     }
 
-    public void ResumeTime()
+    public static void ResumeTime()
     {
-        musicSource.Play();
-        if (audioIds.Count > 0)
-        {
-            foreach (clip audioId in audioIds)
-            {
-                if (audioId.audio != null)
-                {
-                    audioId.audio.GetComponent<AudioSource>().Play();
-                }
-            }
-        }
+        if (rootPlaying) instance.rootSource.Play();
+    }
+
+    public static void PlayRoot()
+    {
+        instance.rootSource.Play();
+        rootPlaying = true;
+    }
+
+    public static void StopRoot()
+    {
+        instance.rootSource.Stop();
+        rootPlaying = false;
     }
 
     public static void PlaySfx(Transform pos, sfx type)
