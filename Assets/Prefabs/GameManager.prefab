@@ -44,13 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de792762f41a30e4087190e6656d4d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTileDisplay: {fileID: 0}
+  nextTileDisplay: {fileID: 0}
   tilemap: {fileID: 0}
   rootTilemap: {fileID: 0}
   placeArrow: {fileID: 8530916710767562068, guid: 3c942073bfc9f444f8765f7e5d37f49f, type: 3}
+  UI: {fileID: 376929624505865998, guid: 10e411785c36369448b9763f9d612d99, type: 3}
   mapSize: {x: 18, y: 0}
   obstacles:
   - {fileID: 11400000, guid: e8e8cde26a027fb459e64dc69279ca26, type: 2}
-  - {fileID: 11400000, guid: a385398086019bf448b0a463e8043898, type: 2}
   - {fileID: 11400000, guid: 2676b082c5482f048a4a5cc690941d4d, type: 2}
   - {fileID: 11400000, guid: 456c013cc9987144c99e83ea23ffff8c, type: 2}
   - {fileID: 11400000, guid: 7fcb479635e3e59488c4ee5c92ecf270, type: 2}
@@ -68,7 +70,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3cde9b92d8602414f92da9d5f7ffee50, type: 2}
   - {fileID: 11400000, guid: 44beb0cfc4c6c0440b4b4981b7cec64f, type: 2}
   - {fileID: 11400000, guid: ed43e877077b2fe42b6b5a377891a5c7, type: 2}
-  - {fileID: 11400000, guid: 9d4046fd389cdde4aba9ba41727a59a8, type: 2}
   - {fileID: 11400000, guid: 2676b082c5482f048a4a5cc690941d4d, type: 2}
   - {fileID: 11400000, guid: 93b6d2d95012fb54abc8f32499fd7ed2, type: 2}
   - {fileID: 11400000, guid: 6eb7843239045c24ca0c5e82e42ce327, type: 2}

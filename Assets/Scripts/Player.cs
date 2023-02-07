@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 enum state { placing, controlling, animating };
 enum tileType
@@ -18,13 +19,13 @@ enum tileType
     under_right, under_left,
 }
 
-enum vegetable { carotte, salade }
-
 public class Player : MonoBehaviour
 {
     [SerializeField] Tilemap tilemap;
     [SerializeField] Tilemap rootTilemap;
     [SerializeField] GameObject placeArrow;
+    [SerializeField] GameObject UI;
+    Animator UIAnimator;
     [SerializeField] Vector2 mapSize;
     [SerializeField] List<TileBase> obstacles;
     [SerializeField] TileBase grass;
@@ -83,7 +84,6 @@ public class Player : MonoBehaviour
     [SerializeField] List<GameObject> vegetables_seeds;
     [SerializeField] List<GameObject> vegetables_grown;
     [SerializeField] GameObject winScreen;
-    vegetable currentVegetable;
     GameObject currentSeed;
     int vegeIndex;
     bool hasWon = false;
@@ -111,6 +111,7 @@ public class Player : MonoBehaviour
         controls.Game.MoveLeft.performed += ctx => MoveLeft();
         controls.Game.MoveLeft.started += ctx => StartMoveLeft();
         controls.Game.MoveLeft.canceled += ctx => StopMoveLeft();
+
         controls.Game.MoveDown.performed += ctx => MoveDown();
         controls.Game.MoveUp.performed += ctx => MoveUp();
 
@@ -122,30 +123,27 @@ public class Player : MonoBehaviour
         int minPos = tilemap.cellBounds.xMin;
         int maxPos = tilemap.cellBounds.xMax;
 
-        Debug.Log("min " + minPos);
-        Debug.Log("max " + maxPos);
-
         int size = maxPos - minPos;
         int middlePos = size / 2;
 
-        int yPos = tilemap.cellBounds.yMax + 1;
-        int xPosMax = 0;
 
         BoundsInt bounds = tilemap.cellBounds;
         foreach (Vector3Int pos in bounds.allPositionsWithin)
         {
-            if (pos.y > yPos) yPos = pos.y;
-            if (pos.x > xPosMax) xPosMax = pos.x;
             Tile tile = tilemap.GetTile<Tile>(pos);
+            //if (tile != null) Debug.Log(tile.name);
             if (tile == endPoint)
             {
                 nbEndPoints++;
             }
         }
-        float xPos = xPosMax % 1 == 0 ? 0.5f : 0f;
+        float xPos = mapSize.x % 2 == 0 ? 0.5f : 0f;  //offset arrow if number of tiles is even to make it line up with tiles
         placeArrow = Instantiate(placeArrow);
         placeArrow.transform.position = new Vector2(xPos, 3.5f);
-        Debug.Log(nbEndPoints);
+
+        UI = Instantiate(UI);
+        UI.GetComponent<Canvas>().worldCamera = Camera.main;
+        UIAnimator = UI.GetComponentInChildren<Animator>();
     }
 
     public void Pause()
@@ -175,10 +173,12 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         controls.Disable();
+        pauseControls.Disable();
     }
 
     void Restart()
     {
+        SoundManager.StopRoot();
         controls.Disable();
         pauseControls.Disable();
         Scene scene = SceneManager.GetActiveScene();
@@ -240,19 +240,12 @@ public class Player : MonoBehaviour
 
     void MoveRight()
     {
-        if (gameState == state.controlling)
-        {
-            TryFillDirection(Vector3Int.right);
-        }
-
+        if (gameState == state.controlling) TryFillDirection(Vector3Int.right);
     }
 
     void MoveLeft()
     {
-        if (gameState == state.controlling)
-        {
-            TryFillDirection(Vector3Int.left);
-        }
+        if (gameState == state.controlling) TryFillDirection(Vector3Int.left);
     }
 
     void MoveDown()
@@ -261,11 +254,11 @@ public class Player : MonoBehaviour
         {
             lastDirection = Vector3Int.zero;
             currentPosition = tilemap.WorldToCell(placeArrow.transform.position);
+            //tilemap.SetTile(currentPosition, intersect_empty);
             TryFillDirection(Vector3Int.down);
         }
         else if (gameState == state.controlling)
         {
-            Debug.Log("placing down");
             TryFillDirection(Vector3Int.down);
         }
     }
@@ -286,10 +279,13 @@ public class Player : MonoBehaviour
         if (currentTile == unidirect_NE || currentTile == unidirect_NW ||
         currentTile == unidirect_SE || currentTile == unidirect_SW ||
         currentTile == unidirect_H || currentTile == unidirect_V ||
-        currentTile == intersect_empty
+        currentTile == intersect_empty || currentTile == intersect_V ||
+        currentTile == intersect_full
         ) return;
+        // (currentTile != null) Debug.Log(currentTile.name);
+
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
-        if (nextTile == unidirect_H && vertical(direction) ||
+        if ((nextTile == unidirect_H && vertical(direction)) ||
         (nextTile == unidirect_V && !vertical(direction))
         ) return;
         if (isPlacing && (nextTile == grass || nextTile == herb2))
@@ -297,6 +293,8 @@ public class Player : MonoBehaviour
             currentPosition += direction;
         }
         nextTile = tilemap.GetTile(currentPosition + direction);
+
+
         TileBase rootTile = rootTilemap.GetTile(currentPosition + direction);
         if (nextTile != null) Debug.Log("adjacent tile : " + nextTile.name);
         if (obstacles.Contains(nextTile) || (obstacles.Contains(rootTile) && nextTile != intersect_empty) ||
@@ -312,6 +310,7 @@ public class Player : MonoBehaviour
         if (isPlacing)
         {
             tilemap.SetTile(currentPosition, herb2);
+            //Plant seed
             vegeIndex = Random.Range(0, vegetables_seeds.Count);
             currentSeed = Instantiate(vegetables_seeds[vegeIndex], placeArrow.transform.position + Vector3.up, Quaternion.identity);
         }
@@ -326,7 +325,6 @@ public class Player : MonoBehaviour
 
     IEnumerator FillLine(Vector3Int direction)
     {
-        //SoundManager.PlaySfx(transform, sfx.grow);
         SoundManager.PlayRoot();
 
         placeArrow.SetActive(false);
@@ -644,6 +642,7 @@ public class Player : MonoBehaviour
 
     void Win()
     {
+        UIAnimator.SetTrigger("kill");
         SoundManager.PlaySfx(transform, sfx.endLevel);
         Cursor.visible = true;
         hasWon = true;
