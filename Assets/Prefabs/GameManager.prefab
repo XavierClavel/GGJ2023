@@ -44,12 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de792762f41a30e4087190e6656d4d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTileDisplay: {fileID: 0}
-  nextTileDisplay: {fileID: 0}
   tilemap: {fileID: 0}
   rootTilemap: {fileID: 0}
   placeArrow: {fileID: 8530916710767562068, guid: 3c942073bfc9f444f8765f7e5d37f49f, type: 3}
   UI: {fileID: 376929624505865998, guid: 10e411785c36369448b9763f9d612d99, type: 3}
+  spriteCannotPlace: {fileID: 21300000, guid: a1fd76c0c8ea9b946a4742744ecb7f76, type: 3}
   mapSize: {x: 18, y: 0}
   obstacles:
   - {fileID: 11400000, guid: e8e8cde26a027fb459e64dc69279ca26, type: 2}

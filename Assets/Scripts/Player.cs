@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 enum state { placing, controlling, animating };
 enum tileType
@@ -23,9 +22,14 @@ public class Player : MonoBehaviour
 {
     [SerializeField] Tilemap tilemap;
     [SerializeField] Tilemap rootTilemap;
+    [Header("UI")]
     [SerializeField] GameObject placeArrow;
     [SerializeField] GameObject UI;
+    SpriteRenderer placeArrowImage;
     Animator UIAnimator;
+    Sprite spriteCanPlace;
+    [SerializeField] Sprite spriteCannotPlace;
+    [Header("Map")]
     [SerializeField] Vector2 mapSize;
     [SerializeField] List<TileBase> obstacles;
     [SerializeField] TileBase grass;
@@ -143,6 +147,9 @@ public class Player : MonoBehaviour
 
         UI = Instantiate(UI);
         UI.GetComponent<Canvas>().worldCamera = Camera.main;
+        placeArrowImage = placeArrow.GetComponentInChildren<SpriteRenderer>();
+        if (placeArrowImage == null) Debug.Log("null image");
+        spriteCanPlace = placeArrowImage.sprite;
         UIAnimator = UI.GetComponentInChildren<Animator>();
     }
 
@@ -227,13 +234,21 @@ public class Player : MonoBehaviour
     {
         if (placeArrow.transform.position.x + 1 >= mapSize.x * 0.5f) return;
         placeArrow.transform.position += Vector3.right;
+        UpdatePlaceArrowSprite();
     }
 
     void MoveLeftPlace()
     {
         if (placeArrow.transform.position.x - 1 <= -mapSize.x * 0.5f) return;
         placeArrow.transform.position += Vector3.left;
+        UpdatePlaceArrowSprite();
+    }
 
+    void UpdatePlaceArrowSprite()
+    {
+        currentPosition = tilemap.WorldToCell(placeArrow.transform.position);
+        if (canMove(Vector3Int.down)) placeArrowImage.sprite = spriteCanPlace;
+        else placeArrowImage.sprite = spriteCannotPlace;
     }
 
 
@@ -254,7 +269,6 @@ public class Player : MonoBehaviour
         {
             lastDirection = Vector3Int.zero;
             currentPosition = tilemap.WorldToCell(placeArrow.transform.position);
-            //tilemap.SetTile(currentPosition, intersect_empty);
             TryFillDirection(Vector3Int.down);
         }
         else if (gameState == state.controlling)
@@ -271,48 +285,55 @@ public class Player : MonoBehaviour
         }
     }
 
-    void TryFillDirection(Vector3Int direction)
+    bool canMove(Vector3Int direction)
     {
-        Debug.Log("current position : " + currentPosition);
-        Debug.Log("next position : " + (currentPosition + direction));
         TileBase currentTile = tilemap.GetTile(currentPosition);
+
         if (currentTile == unidirect_NE || currentTile == unidirect_NW ||
         currentTile == unidirect_SE || currentTile == unidirect_SW ||
         currentTile == unidirect_H || currentTile == unidirect_V ||
         currentTile == intersect_empty || currentTile == intersect_V ||
         currentTile == intersect_full
-        ) return;
-        // (currentTile != null) Debug.Log(currentTile.name);
+        ) return false;
 
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
         if ((nextTile == unidirect_H && vertical(direction)) ||
-        (nextTile == unidirect_V && !vertical(direction))
-        ) return;
+            (nextTile == unidirect_V && !vertical(direction))
+            ) return false;
         if (isPlacing && (nextTile == grass || nextTile == herb2))
         {
             currentPosition += direction;
+            nextTile = tilemap.GetTile(currentPosition + direction);
         }
-        nextTile = tilemap.GetTile(currentPosition + direction);
 
 
         TileBase rootTile = rootTilemap.GetTile(currentPosition + direction);
         if (nextTile != null) Debug.Log("adjacent tile : " + nextTile.name);
         if (obstacles.Contains(nextTile) || (obstacles.Contains(rootTile) && nextTile != intersect_empty) ||
-        (nextTile == unidirect_NE && direction == Vector3Int.right) ||
-        (nextTile == unidirect_NE && direction == Vector3Int.up) ||
-        (nextTile == unidirect_NW && direction == Vector3Int.left) ||
-        (nextTile == unidirect_NW && direction == Vector3Int.up) ||
-        (nextTile == unidirect_SE && direction == Vector3Int.right) ||
-        (nextTile == unidirect_SE && direction == Vector3Int.down) ||
-        (nextTile == unidirect_SW && direction == Vector3Int.left) ||
-        (nextTile == unidirect_SW && direction == Vector3Int.down)
-        ) return;
+            (nextTile == unidirect_NE && direction == Vector3Int.right) ||
+            (nextTile == unidirect_NE && direction == Vector3Int.up) ||
+            (nextTile == unidirect_NW && direction == Vector3Int.left) ||
+            (nextTile == unidirect_NW && direction == Vector3Int.up) ||
+            (nextTile == unidirect_SE && direction == Vector3Int.right) ||
+            (nextTile == unidirect_SE && direction == Vector3Int.down) ||
+            (nextTile == unidirect_SW && direction == Vector3Int.left) ||
+            (nextTile == unidirect_SW && direction == Vector3Int.down)
+            ) return false;
+
+        return true;
+    }
+
+    void TryFillDirection(Vector3Int direction)
+    {
+        if (!canMove(direction)) return;
         if (isPlacing)
         {
             tilemap.SetTile(currentPosition, herb2);
             //Plant seed
             vegeIndex = Random.Range(0, vegetables_seeds.Count);
             currentSeed = Instantiate(vegetables_seeds[vegeIndex], placeArrow.transform.position + Vector3.up, Quaternion.identity);
+            StopMoveRight();
+            StopMoveLeft();
         }
         StartCoroutine("FillLine", direction);
     }
@@ -636,6 +657,7 @@ public class Player : MonoBehaviour
             gameState = state.placing;
             isPlacing = true;
             lastDirection = Vector3Int.zero;
+            placeArrowImage.sprite = spriteCannotPlace;
             placeArrow.SetActive(true);
         }
     }
