@@ -194,9 +194,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ba7fee06902dfa042a2ac51efbbb0b1a, type: 2}
   endPoint_left:
   - anim:
-    - {fileID: 11400000, guid: ce5a08e48e51f4a4cb6680d79323ac42, type: 2}
-    - {fileID: 11400000, guid: 956d4918bf630644aac25a96afb84bb6, type: 2}
-    - {fileID: 11400000, guid: 203c1666e3f668a47a5fcd0ab95053dd, type: 2}
+    - {fileID: 11400000, guid: 14dd19ec7021fdf4286dee11e743537a, type: 2}
+    - {fileID: 11400000, guid: 67744677b7478ce4da575c8d74980e36, type: 2}
+    - {fileID: 11400000, guid: bbac1a5ba2311f54fb54db522da15395, type: 2}
     - {fileID: 11400000, guid: faba23d2adbf59d4d9e8fc5e0ab2159f, type: 2}
     - {fileID: 11400000, guid: e81f47d788693a94d8dc928456d6ac21, type: 2}
     - {fileID: 11400000, guid: 292d2b00557124048a388ca6964b0110, type: 2}

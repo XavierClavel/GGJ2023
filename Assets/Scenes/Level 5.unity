@@ -5548,17 +5548,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneFader
       objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228434, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228435, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 6065061689220228435, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_RenderMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_RootOrder
@@ -5582,11 +5590,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5598,7 +5618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalRotation.w

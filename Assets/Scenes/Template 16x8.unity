@@ -2753,7 +2753,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 7
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -4072,8 +4072,8 @@ Tilemap:
   m_TileSpriteArray:
   - m_RefCount: 64
     m_Data: {fileID: 21300000, guid: e2b9f81d8c84ea44690645446932023c, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: ad5cfb9c334b49c4ca7ae2de384c8c00, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 13
     m_Data: {fileID: 21300000, guid: bd8964a3e2df2fa4f9cbbc3c89629f69, type: 3}
   - m_RefCount: 11
@@ -4084,8 +4084,8 @@ Tilemap:
     m_Data: {fileID: 21300000, guid: 63ef79c7eba2ecf40acee5b087cda11a, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 37a6fc5d82c446240be8c01569691f63, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: ad5cfb9c334b49c4ca7ae2de384c8c00, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: 85333551a02019448a224eec05480365, type: 3}
   - m_RefCount: 1
@@ -4501,17 +4501,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneFader
       objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228434, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228435, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 6065061689220228435, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_RenderMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_RootOrder
@@ -4535,11 +4543,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4551,7 +4571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalRotation.w

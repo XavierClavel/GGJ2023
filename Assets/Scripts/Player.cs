@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 enum state { placing, controlling, animating };
 enum tileType
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
     [Header("UI")]
     [SerializeField] GameObject placeArrow;
     [SerializeField] GameObject UI;
+    TextMeshProUGUI nbSeedsDisplay;
     SpriteRenderer placeArrowImage;
     Animator UIAnimator;
     Sprite spriteCanPlace;
@@ -141,16 +143,19 @@ public class Player : MonoBehaviour
                 nbEndPoints++;
             }
         }
+
         float xPos = mapSize.x % 2 == 0 ? 0.5f : 0f;  //offset arrow if number of tiles is even to make it line up with tiles
         placeArrow = Instantiate(placeArrow);
         placeArrow.transform.position = new Vector2(xPos, 3.5f);
 
         UI = Instantiate(UI);
+        nbSeedsDisplay = UI.GetComponentInChildren<TextMeshProUGUI>();
+        nbSeedsDisplay.text = nbEndPoints + "";
         UI.GetComponent<Canvas>().worldCamera = Camera.main;
         placeArrowImage = placeArrow.GetComponentInChildren<SpriteRenderer>();
         if (placeArrowImage == null) Debug.Log("null image");
         spriteCanPlace = placeArrowImage.sprite;
-        UIAnimator = UI.GetComponentInChildren<Animator>();
+        UIAnimator = UI.GetComponent<Animator>();
     }
 
     public void Pause()
@@ -649,6 +654,8 @@ public class Player : MonoBehaviour
         Destroy(currentSeed);
         Debug.Log("end point reached");
         nbEndPoints--;
+        Debug.Log(nbEndPoints + "");
+        nbSeedsDisplay.SetText(nbEndPoints + "");
         if (nbEndPoints <= 0) Win();
         else
         {

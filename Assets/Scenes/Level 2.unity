@@ -1763,10 +1763,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -3068,7 +3068,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: To control the root.
+  m_text: 'To control the root.
+
+    Lead it to the hole !'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f9a94deded91a74288d2de1a6cb6b20, type: 2}
   m_sharedMaterial: {fileID: 870092678891679643, guid: 5f9a94deded91a74288d2de1a6cb6b20, type: 2}
@@ -3107,7 +3109,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 11.83
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -6288,17 +6290,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneFader
       objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228434, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228435, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 6065061689220228435, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_RenderMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_Pivot.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_RootOrder
@@ -6322,11 +6332,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6338,7 +6360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6065061689220228444, guid: eedd029c2f6d2744cbdbddfda9ddd9bb, type: 3}
       propertyPath: m_LocalRotation.w
