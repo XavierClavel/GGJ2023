@@ -21,8 +21,11 @@ enum tileType
 
 public class Player : MonoBehaviour
 {
+    [Header("Tilemaps")]
     [SerializeField] Tilemap tilemap;
     [SerializeField] Tilemap rootTilemap;
+    [SerializeField] Tilemap rootOverlayTilemap;
+    [SerializeField] Tilemap rootBridgeOverlayTilemap;
     [Header("UI")]
     [SerializeField] GameObject placeArrow;
     [SerializeField] GameObject UI;
@@ -87,6 +90,7 @@ public class Player : MonoBehaviour
     [SerializeField] List<TileAnim> tunnel_right;
     [SerializeField] List<TileAnim> tunnel_left;
     [SerializeField] TileBase herb2;
+    [SerializeField] TileBase herb3;
     [SerializeField] List<GameObject> vegetables_seeds;
     [SerializeField] List<GameObject> vegetables_grown;
     [SerializeField] GameObject winScreen;
@@ -99,6 +103,8 @@ public class Player : MonoBehaviour
     [SerializeField] PauseMenu winScript;
     [SerializeField] PauseMenu pauseScript;
     WaitForSeconds pressDuration = new WaitForSeconds(0.3f);
+    Dictionary<TileBase, TileAnim> tileToTileAnim = new Dictionary<TileBase, TileAnim>();
+    List<Vector3Int> rootPositions = new List<Vector3Int>();
 
     private void Start()
     {
@@ -137,7 +143,6 @@ public class Player : MonoBehaviour
         foreach (Vector3Int pos in bounds.allPositionsWithin)
         {
             Tile tile = tilemap.GetTile<Tile>(pos);
-            //if (tile != null) Debug.Log(tile.name);
             if (tile == endPoint)
             {
                 nbEndPoints++;
@@ -153,9 +158,26 @@ public class Player : MonoBehaviour
         nbSeedsDisplay.text = nbEndPoints + "";
         UI.GetComponent<Canvas>().worldCamera = Camera.main;
         placeArrowImage = placeArrow.GetComponentInChildren<SpriteRenderer>();
-        if (placeArrowImage == null) Debug.Log("null image");
         spriteCanPlace = placeArrowImage.sprite;
         UIAnimator = UI.GetComponent<Animator>();
+
+        tileToTileAnim[anims_root_Vdown[0].anim[3]] = anims_root_Vup[1];
+        tileToTileAnim[anims_root_Vup[0].anim[3]] = anims_root_Vdown[1];
+        tileToTileAnim[anims_root_Hright[0].anim[3]] = anims_root_Hleft[1];
+        tileToTileAnim[anims_root_Hleft[0].anim[3]] = anims_root_Hright[1];
+
+        tileToTileAnim[anims_corner_NE_down[0].anim[3]] = anims_corner_NE_left[1];
+        tileToTileAnim[anims_corner_NE_left[0].anim[3]] = anims_corner_NE_down[1];
+        tileToTileAnim[anims_corner_NW_down[0].anim[3]] = anims_corner_NW_right[1];
+        tileToTileAnim[anims_corner_NW_right[0].anim[3]] = anims_corner_NW_down[1];
+
+        tileToTileAnim[anims_corner_SE_left[0].anim[3]] = anims_corner_SE_up[1];
+        tileToTileAnim[anims_corner_SE_up[0].anim[3]] = anims_corner_SE_left[1];
+        tileToTileAnim[anims_corner_SW_right[0].anim[3]] = anims_corner_SW_up[1];
+        tileToTileAnim[anims_corner_SW_up[0].anim[3]] = anims_corner_SW_right[1];
+
+        tileToTileAnim[tunnel_left[0].anim[3]] = tunnel_left[1];
+        tileToTileAnim[tunnel_right[0].anim[3]] = tunnel_right[1];
     }
 
     public void Pause()
@@ -339,6 +361,7 @@ public class Player : MonoBehaviour
             currentSeed = Instantiate(vegetables_seeds[vegeIndex], placeArrow.transform.position + Vector3.up, Quaternion.identity);
             StopMoveRight();
             StopMoveLeft();
+            isPlacing = false;
         }
         StartCoroutine("FillLine", direction);
     }
@@ -357,7 +380,6 @@ public class Player : MonoBehaviour
         gameState = state.animating;
         TileBase nextTile = tilemap.GetTile(currentPosition + direction);
         TileBase nextRoot = rootTilemap.GetTile(currentPosition + direction);
-        Debug.Log("last direction : " + lastDirection);
 
         if ((lastDirection != Vector3Int.zero) && (!obstacles.Contains(nextRoot) || (nextTile == intersect_empty && !vertical(direction))) && nextTile != unidirect_NE
         && nextTile != unidirect_NW && nextTile != unidirect_SE && nextTile != unidirect_SW
@@ -365,10 +387,10 @@ public class Player : MonoBehaviour
 
         while (true)
         {
-            Debug.Log(currentPosition);
             nextTile = tilemap.GetTile(currentPosition + direction);
             nextRoot = rootTilemap.GetTile(currentPosition + direction);
-            if (nextTile != null) Debug.Log(nextTile.name);
+            if (nextRoot != null) Debug.Log(nextRoot.name);
+            else Debug.Log("empty tile");
             if (isPlacing && nextTile == grass) currentPosition += direction;
             if (obstacles.Contains(nextTile) || (obstacles.Contains(nextRoot) && nextTile != intersect_empty))
             {
@@ -463,7 +485,6 @@ public class Player : MonoBehaviour
                     direction = Vector3Int.up;
                     yield return PlaceTile(tileType.corner_NE_left, currentPosition);
                 }
-                Debug.Log(direction);
             }
             else if (nextTile == unidirect_SE)
             {
@@ -487,11 +508,8 @@ public class Player : MonoBehaviour
             }
             else if (nextTile == unidirect_NW)
             {
-                Debug.Log("UNIDIRECT NW");
-                Debug.Log(direction);
                 if (direction == Vector3Int.up || direction == Vector3Int.left)
                 {
-                    Debug.Log("backoff");
                     yield return Backoff(currentPosition);
                     break;
                 }
@@ -499,13 +517,11 @@ public class Player : MonoBehaviour
                 currentPosition += direction;
                 if (direction == Vector3Int.down)
                 {
-                    Debug.Log("down");
                     direction = Vector3Int.left;
                     yield return PlaceTile(tileType.corner_NW_down, currentPosition);
                 }
                 else
                 {
-                    Debug.Log("right");
                     direction = Vector3Int.up;
                     yield return PlaceTile(tileType.corner_NW_right, currentPosition);
                 }
@@ -541,12 +557,13 @@ public class Player : MonoBehaviour
             }
             lastDirection = direction;
         }
-        Debug.Log("final position : " + currentPosition);
         lastDirection = direction;
         gameState = state.controlling;
         isPlacing = false;
         SoundManager.StopRoot();
     }
+
+    #region tilePlacing
 
     IEnumerator Backoff(Vector3Int position)
     {
@@ -564,40 +581,40 @@ public class Player : MonoBehaviour
         switch (type)
         {
             case tileType.straight_V_down:
-                return anims_root_Vdown[Random.Range(0, anims_root_Vdown.Count)];
+                return anims_root_Vdown[0];
 
             case tileType.straight_V_up:
-                return anims_root_Vup[Random.Range(0, anims_root_Vup.Count)];
+                return anims_root_Vup[0];
 
             case tileType.straight_H_right:
-                return anims_root_Hright[Random.Range(0, anims_root_Hright.Count)];
+                return anims_root_Hright[0];
 
             case tileType.straight_H_left:
-                return anims_root_Hleft[Random.Range(0, anims_root_Hleft.Count)];
+                return anims_root_Hleft[0];
 
             case tileType.corner_NE_down:
-                return anims_corner_NE_down[Random.Range(0, anims_corner_NE_down.Count)];
+                return anims_corner_NE_down[0];
 
             case tileType.corner_NE_left:
-                return anims_corner_NE_left[Random.Range(0, anims_corner_NE_left.Count)];
+                return anims_corner_NE_left[0];
 
             case tileType.corner_NW_down:
-                return anims_corner_NW_down[Random.Range(0, anims_corner_NW_down.Count)];
+                return anims_corner_NW_down[0];
 
             case tileType.corner_NW_right:
-                return anims_corner_NW_right[Random.Range(0, anims_corner_NW_right.Count)];
+                return anims_corner_NW_right[0];
 
             case tileType.corner_SE_up:
-                return anims_corner_SE_up[Random.Range(0, anims_corner_SE_up.Count)];
+                return anims_corner_SE_up[0];
 
             case tileType.corner_SE_left:
-                return anims_corner_SE_left[Random.Range(0, anims_corner_SE_left.Count)];
+                return anims_corner_SE_left[0];
 
             case tileType.corner_SW_up:
-                return anims_corner_SW_up[Random.Range(0, anims_corner_SW_up.Count)];
+                return anims_corner_SW_up[0];
 
             case tileType.corner_SW_right:
-                return anims_corner_SW_right[Random.Range(0, anims_corner_SW_right.Count)];
+                return anims_corner_SW_right[0];
 
             case tileType.endPoint_up:
                 return endPoint_up[0];
@@ -625,6 +642,7 @@ public class Player : MonoBehaviour
 
     IEnumerator PlaceUnderTile(tileType type, Vector3Int position)
     {
+        rootPositions.Add(position);
         lastAnim = TileSwitch(type);
         List<TileBase> tiles = lastAnim.anim;
         for (int i = 0; i < tiles.Count; i++)
@@ -636,6 +654,7 @@ public class Player : MonoBehaviour
 
     IEnumerator PlaceTile(tileType type, Vector3Int position)
     {
+        rootPositions.Add(position);
         lastAnim = TileSwitch(type);
         List<TileBase> tiles = lastAnim.anim;
         for (int i = 0; i < tiles.Count; i++)
@@ -645,28 +664,73 @@ public class Player : MonoBehaviour
         }
     }
 
+    void DecrementSeedCounter()
+    {
+        nbEndPoints--;
+        nbSeedsDisplay.SetText(nbEndPoints + "");
+    }
+
     void EndPointReached()
     {
+        rootPositions.Add(currentPosition);
         SoundManager.StopRoot();
         GameObject obj = Instantiate(vegetables_grown[vegeIndex], currentSeed.transform.position + Vector3.down, Quaternion.identity);
         if (vegeIndex == 2) obj.transform.position += 0.5f * Vector3.up;
         if (vegeIndex == 1) obj.transform.position += Vector3.up;
         Destroy(currentSeed);
-        Debug.Log("end point reached");
-        nbEndPoints--;
-        Debug.Log(nbEndPoints + "");
-        nbSeedsDisplay.SetText(nbEndPoints + "");
+        DecrementSeedCounter();
+        StartCoroutine("IterateOverRoot");
         if (nbEndPoints <= 0) Win();
         else
         {
             SoundManager.PlaySfx(transform, sfx.endPoint);
-            Debug.Log("placing");
             gameState = state.placing;
             isPlacing = true;
             lastDirection = Vector3Int.zero;
             placeArrowImage.sprite = spriteCannotPlace;
             placeArrow.SetActive(true);
         }
+    }
+
+    IEnumerator IterateOverRoot()
+    {
+        rootPositions.Reverse();
+        Vector3Int previousPosition = 99999 * Vector3Int.one;
+        foreach (Vector3Int rootPosition in rootPositions)
+        {
+            TileBase root = rootTilemap.GetTile(rootPosition);
+            if (root == null) root = tilemap.GetTile(rootPosition);
+            if (!tileToTileAnim.ContainsKey(root))
+            {
+                previousPosition = rootPosition;
+                continue;
+            }
+            TileAnim greenRootAnim;
+
+            if (!vertical(rootPosition - previousPosition) && (tilemap.GetTile(rootPosition) == tunnel_left[0].anim[3] ||
+            tilemap.GetTile(rootPosition) == tunnel_right[0].anim[3]))
+            {
+                root = tilemap.GetTile(rootPosition);
+                greenRootAnim = tileToTileAnim[root];
+                foreach (TileBase tile in greenRootAnim.anim)
+                {
+                    tilemap.SetTile(rootPosition, tile);
+                    yield return frameDuration;
+                }
+            }
+            else
+            {
+                greenRootAnim = tileToTileAnim[root];
+                foreach (TileBase tile in greenRootAnim.anim)
+                {
+                    rootOverlayTilemap.SetTile(rootPosition, tile);
+                    yield return frameDuration;
+                }
+            }
+            previousPosition = rootPosition;
+        }
+        tilemap.SetTile(rootPositions[^1] + Vector3Int.up, herb3);
+        rootPositions = new List<Vector3Int>();
     }
 
     void Win()
@@ -681,8 +745,6 @@ public class Player : MonoBehaviour
 
     IEnumerator ChangeDirection(Vector3Int direction)
     {
-        Debug.Log("last direction : " + lastDirection);
-        Debug.Log("current direction : " + direction);
         if (direction == Vector3Int.down)
         {
             if (lastDirection == Vector3Int.right) yield return PlaceTile(tileType.corner_SW_right, currentPosition);
@@ -704,4 +766,5 @@ public class Player : MonoBehaviour
             else yield return PlaceTile(tileType.corner_NW_down, currentPosition);
         }
     }
+    #endregion
 }

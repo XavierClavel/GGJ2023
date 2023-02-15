@@ -33,7 +33,7 @@ public class SceneFader : MonoBehaviour
         float t = 0f;
         while (t < fadeTime)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             float a = curveIn.Evaluate(t / fadeTime);
             image.color = new Color(0f, 0f, 0f, a);
             yield return waitFrame;
@@ -46,7 +46,7 @@ public class SceneFader : MonoBehaviour
         float t = 0f;
         while (t < fadeTime)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             float a = curveOut.Evaluate(t / fadeTime);
             image.color = new Color(0f, 0f, 0f, a);
             yield return waitFrame;
