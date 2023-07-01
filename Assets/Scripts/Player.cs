@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 enum state { placing, controlling, animating };
 enum tileType
@@ -106,9 +107,13 @@ public class Player : MonoBehaviour
     Dictionary<TileBase, TileAnim> tileToTileAnim = new Dictionary<TileBase, TileAnim>();
     List<Vector3Int> rootPositions = new List<Vector3Int>();
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
 
         Time.timeScale = 1f;
 
@@ -210,7 +215,7 @@ public class Player : MonoBehaviour
         pauseControls.Disable();
     }
 
-    void Restart()
+    public void Restart()
     {
         SoundManager.StopRoot();
         controls.Disable();
@@ -219,12 +224,12 @@ public class Player : MonoBehaviour
         SceneManager.LoadScene(scene.name);
     }
 
-    void StartMoveRight()
+    public void StartMoveRight()
     {
         if (gameState == state.placing) StartCoroutine("ContinueMoveRight");
     }
 
-    void StopMoveRight()
+    public void StopMoveRight()
     {
         StopCoroutine("ContinueMoveRight");
     }
@@ -238,12 +243,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    void StartMoveLeft()
+    public void StartMoveLeft()
     {
         if (gameState == state.placing) StartCoroutine("ContinueMoveLeft");
     }
 
-    void StopMoveLeft()
+    public void StopMoveLeft()
     {
         StopCoroutine("ContinueMoveLeft");
     }
@@ -280,17 +285,17 @@ public class Player : MonoBehaviour
 
 
 
-    void MoveRight()
+    public void MoveRight()
     {
         if (gameState == state.controlling) TryFillDirection(Vector3Int.right);
     }
 
-    void MoveLeft()
+    public void MoveLeft()
     {
         if (gameState == state.controlling) TryFillDirection(Vector3Int.left);
     }
 
-    void MoveDown()
+    public void MoveDown()
     {
         if (gameState == state.placing)
         {
@@ -304,7 +309,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void MoveUp()
+    public void MoveUp()
     {
         if (gameState == state.controlling)
         {
