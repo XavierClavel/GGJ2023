@@ -8,6 +8,12 @@ using UnityEngine.EventSystems;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject nextButton;
+    [SerializeField] Canvas canvas;
+    private void Awake()
+    {
+        canvas.worldCamera = Camera.main;
+    }
+
     public void SelectNext()
     {
         EventSystem.current.SetSelectedGameObject(nextButton);

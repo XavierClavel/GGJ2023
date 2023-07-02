@@ -63,8 +63,8 @@ public class Player : MonoBehaviour
     state gameState = state.placing;
     Vector3Int currentPosition;
     Vector3Int lastDirection = Vector3Int.zero;
-    Controls controls;
-    PauseControls pauseControls;
+    //Controls controls;
+    //PauseControls pauseControls;
     int nbEndPoints = 0;
     WaitForSeconds frameDuration = new WaitForSeconds(0.03f);
     bool gamePaused = false;
@@ -110,16 +110,14 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Start()
-    {
 
         Time.timeScale = 1f;
 
         Cursor.visible = false;
 
-        controls = new Controls();
+
+        //controls = new Controls();
+        /*
         controls.Enable();
         controls.Game.MoveRight.performed += ctx => MoveRight();
         controls.Game.MoveRight.started += ctx => StartMoveRight();
@@ -136,6 +134,7 @@ public class Player : MonoBehaviour
         pauseControls.Enable();
         pauseControls.Pause.Pause.performed += ctx => Pause();
         pauseControls.Pause.Restart.performed += ctx => Restart();
+        */
 
         int minPos = tilemap.cellBounds.xMin;
         int maxPos = tilemap.cellBounds.xMax;
@@ -185,6 +184,7 @@ public class Player : MonoBehaviour
         tileToTileAnim[tunnel_right[0].anim[3]] = tunnel_right[1];
     }
 
+
     public void Pause()
     {
         if (hasWon) return;
@@ -194,7 +194,7 @@ public class Player : MonoBehaviour
             Cursor.visible = false;
             pauseWindow.SetActive(false);
             gamePaused = false;
-            controls.Enable();
+            //controls.Enable();
             SoundManager.ResumeTime();
         }
         else
@@ -204,34 +204,34 @@ public class Player : MonoBehaviour
             pauseWindow.SetActive(true);
             pauseScript.SelectNext();
             gamePaused = true;
-            controls.Disable();
+            //controls.Disable();
             SoundManager.StopTime();
         }
     }
 
     private void OnDisable()
     {
-        controls.Disable();
-        pauseControls.Disable();
+        //controls.Disable();
+        //pauseControls.Disable();
     }
 
     public void Restart()
     {
         SoundManager.StopRoot();
-        controls.Disable();
-        pauseControls.Disable();
+        //controls.Disable();
+        //pauseControls.Disable();
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
 
     public void StartMoveRight()
     {
-        if (gameState == state.placing) StartCoroutine("ContinueMoveRight");
+        if (gameState == state.placing) StartCoroutine(nameof(ContinueMoveRight));
     }
 
     public void StopMoveRight()
     {
-        StopCoroutine("ContinueMoveRight");
+        StopCoroutine(nameof(ContinueMoveRight));
     }
 
     IEnumerator ContinueMoveRight()
@@ -245,12 +245,12 @@ public class Player : MonoBehaviour
 
     public void StartMoveLeft()
     {
-        if (gameState == state.placing) StartCoroutine("ContinueMoveLeft");
+        if (gameState == state.placing) StartCoroutine(nameof(ContinueMoveLeft));
     }
 
     public void StopMoveLeft()
     {
-        StopCoroutine("ContinueMoveLeft");
+        StopCoroutine(nameof(ContinueMoveLeft));
     }
 
     IEnumerator ContinueMoveLeft()
@@ -368,7 +368,7 @@ public class Player : MonoBehaviour
             StopMoveLeft();
             isPlacing = false;
         }
-        StartCoroutine("FillLine", direction);
+        StartCoroutine(nameof(FillLine), direction);
     }
 
     bool vertical(Vector3Int direction)
@@ -411,7 +411,7 @@ public class Player : MonoBehaviour
                 else if (direction == Vector3Int.left) yield return PlaceTile(tileType.endPoint_left, currentPosition);
                 EndPointReached();
                 lastDirection = Vector3Int.zero;
-                StopCoroutine("FillLine");
+                StopCoroutine(nameof(FillLine));
             }
             else if (nextTile == intersect_empty)
             {
@@ -684,7 +684,7 @@ public class Player : MonoBehaviour
         if (vegeIndex == 1) obj.transform.position += Vector3.up;
         Destroy(currentSeed);
         DecrementSeedCounter();
-        StartCoroutine("IterateOverRoot");
+        StartCoroutine(nameof(IterateOverRoot));
         if (nbEndPoints <= 0) Win();
         else
         {

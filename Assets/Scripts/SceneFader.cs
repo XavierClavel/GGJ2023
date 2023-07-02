@@ -11,32 +11,35 @@ public class SceneFader : MonoBehaviour
     public AnimationCurve curveOut;
     WaitForEndOfFrame waitFrame = new WaitForEndOfFrame();
     float fadeTime = 0.7f;
+    [SerializeField] Canvas canvas;
 
     private void Awake()
     {
-        image.gameObject.SetActive(true);
+        instance = this;
+        image.color = new Color(0f, 0f, 0f, 1f);
     }
 
     void Start()
     {
-        instance = this;
-        StartCoroutine(FadeIn());
+        canvas.worldCamera = Camera.main;
+        StartCoroutine(nameof(FadeIn));
     }
 
     public static void FadeTo(string scene)
     {
-        instance.StartCoroutine("FadeOut", scene);
+        instance.StartCoroutine(nameof(FadeOut), scene);
     }
 
     IEnumerator FadeIn()
     {
         float t = 0f;
+        yield return null;
         while (t < fadeTime)
         {
+            yield return null;
             t += Time.unscaledDeltaTime;
             float a = curveIn.Evaluate(t / fadeTime);
             image.color = new Color(0f, 0f, 0f, a);
-            yield return waitFrame;
         }
         image.color = new Color(0f, 0f, 0f, 0f);
     }

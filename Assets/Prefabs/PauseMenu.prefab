@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextButton: {fileID: 3078933971690170399}
+  canvas: {fileID: 3078933971168700343}
 --- !u!223 &3078933971168700343
 Canvas:
   m_ObjectHideFlags: 0

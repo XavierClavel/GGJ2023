@@ -15,21 +15,17 @@ public class MainMenu : MonoBehaviour
     {
         Cursor.visible = true;
         Time.timeScale = 1f;
+        DontDestroyOnLoad(saxo);
     }
 
     public void Play()
     {
-        Cursor.visible = false;
-        DontDestroyOnLoad(saxo);
-        saxo.Play();
-        Destroy(SoundManager.instance.gameObject);
-        SceneFader.FadeTo("Level 1");
+        LoadLevel("Level 1");
     }
 
     public void LoadLevel(string levelName)
     {
         Cursor.visible = false;
-        DontDestroyOnLoad(saxo);
         saxo.Play();
         Destroy(SoundManager.instance.gameObject);
         SceneFader.FadeTo(levelName);

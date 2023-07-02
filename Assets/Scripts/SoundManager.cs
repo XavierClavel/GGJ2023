@@ -141,6 +141,7 @@ public class SoundManager : MonoBehaviour
     void PlayClipAt(AudioClip clip, Vector3 pos, float pitch, sfx type, float volume)       //create temporary audio sources for each sfx in order to be able to modify pitch
     {
         GameObject audioContainer = new GameObject("TempAudio"); // create the temporary object
+        DontDestroyOnLoad(audioContainer);
         audioContainer.transform.position = pos; // set its position to localize sound
         AudioSource aSource = audioContainer.AddComponent<AudioSource>();
         aSource.pitch = pitch;
