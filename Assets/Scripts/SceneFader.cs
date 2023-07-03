@@ -9,7 +9,6 @@ public class SceneFader : MonoBehaviour
     public static SceneFader instance;
     public AnimationCurve curveIn;
     public AnimationCurve curveOut;
-    WaitForEndOfFrame waitFrame = new WaitForEndOfFrame();
     float fadeTime = 0.7f;
     [SerializeField] Canvas canvas;
 
@@ -34,6 +33,8 @@ public class SceneFader : MonoBehaviour
     {
         float t = 0f;
         yield return null;
+        yield return null;
+
         while (t < fadeTime)
         {
             yield return null;
@@ -47,13 +48,15 @@ public class SceneFader : MonoBehaviour
     IEnumerator FadeOut(string scene)
     {
         float t = 0f;
+        yield return null;
         while (t < fadeTime)
         {
             t += Time.unscaledDeltaTime;
             float a = curveOut.Evaluate(t / fadeTime);
             image.color = new Color(0f, 0f, 0f, a);
-            yield return waitFrame;
+            yield return null;
         }
+        yield return null;
         SceneManager.LoadScene(scene);
     }
 

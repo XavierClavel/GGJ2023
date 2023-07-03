@@ -63,8 +63,8 @@ public class Player : MonoBehaviour
     state gameState = state.placing;
     Vector3Int currentPosition;
     Vector3Int lastDirection = Vector3Int.zero;
-    //Controls controls;
-    //PauseControls pauseControls;
+    Controls controls;
+    PauseControls pauseControls;
     int nbEndPoints = 0;
     WaitForSeconds frameDuration = new WaitForSeconds(0.03f);
     bool gamePaused = false;
@@ -116,8 +116,8 @@ public class Player : MonoBehaviour
         Cursor.visible = false;
 
 
-        //controls = new Controls();
-        /*
+        controls = new Controls();
+
         controls.Enable();
         controls.Game.MoveRight.performed += ctx => MoveRight();
         controls.Game.MoveRight.started += ctx => StartMoveRight();
@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
         pauseControls.Enable();
         pauseControls.Pause.Pause.performed += ctx => Pause();
         pauseControls.Pause.Restart.performed += ctx => Restart();
-        */
+
 
         int minPos = tilemap.cellBounds.xMin;
         int maxPos = tilemap.cellBounds.xMax;
@@ -194,7 +194,7 @@ public class Player : MonoBehaviour
             Cursor.visible = false;
             pauseWindow.SetActive(false);
             gamePaused = false;
-            //controls.Enable();
+            controls.Enable();
             SoundManager.ResumeTime();
         }
         else
@@ -204,22 +204,22 @@ public class Player : MonoBehaviour
             pauseWindow.SetActive(true);
             pauseScript.SelectNext();
             gamePaused = true;
-            //controls.Disable();
+            controls.Disable();
             SoundManager.StopTime();
         }
     }
 
     private void OnDisable()
     {
-        //controls.Disable();
-        //pauseControls.Disable();
+        controls.Disable();
+        pauseControls.Disable();
     }
 
     public void Restart()
     {
         SoundManager.StopRoot();
-        //controls.Disable();
-        //pauseControls.Disable();
+        controls.Disable();
+        pauseControls.Disable();
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
     }
