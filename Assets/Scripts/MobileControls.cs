@@ -43,7 +43,10 @@ public class MobileControls : MonoBehaviour
     public static bool isPlatformAndroid()
     {
         //return false;
-        return EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android || Application.platform == RuntimePlatform.Android;
+#if UNITY_EDITOR
+        return EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android;
+#endif
+        return Application.platform == RuntimePlatform.Android;
     }
 
 }
